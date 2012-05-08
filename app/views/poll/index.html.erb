@@ -1,0 +1,46 @@
+<% if logged_in? and current_user.is_in_role?(:Admin) %>
+<h2>Poll Editing Stuffs</h2>
+<ol>
+	<li><%= link_to 'Create New Poll', new_poll_question_path %></li>
+	<li><%= link_to 'Create New Answer', new_poll_answer_path %></li>
+	<li>Assign Answers to the Poll</li>
+	<li>Make sure the poll is active</li>
+	<li>Profit...</li>
+	
+</ol>
+
+
+<div id="poll_editing">
+	<h2>Current Polls</h2>
+	<table>
+		<tr>
+			<th>Name</th><th>Desc</th><th>Answers</th><th>Active</th><th>Actions</th>
+		</tr>
+<% for poll in @polls %>
+	<tr>
+		<td><%=h poll.name %></td><td><%=h poll.description %></td>
+		<td><ul>
+			<% PollAnswer.find(:all, :conditions => { :poll_question_id => poll.id}).each do |a|  %>
+				<li><%= a.description%></li>
+			<% end %>
+			</ul>
+		</td>
+		
+		<td><%= poll.active %><td><%= link_to "Assign Answers", edit_poll_path(poll) %> | <%= link_to 'Edit', edit_poll_question_path(poll) %> | <%= link_to 'Destroy', poll, :confirm => 'Are you sure?', :method => :delete %></td>
+	</tr>
+	
+<% end %>
+</table>
+
+<h2>Answers</h2>
+<ul>
+<% for answer in @answers %>
+<li><%= answer.description%> | <%= link_to 'Edit', edit_poll_answer_path(answer) %> | <%= link_to 'Destroy', answer, :confirm => 'Are you sure?', :method => :delete %> </li>
+<% end %>
+</ul>
+</div>
+<br />
+<%= link_to 'Back', {:controller => 'poll', :action => 'index'} %>
+<% else %>
+Your not allowed to be here.
+<% end%>

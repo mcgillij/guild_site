@@ -1,0 +1,53 @@
+<% form_for @user do |f| -%>
+<p>
+    <label for="login">
+        Login
+    </label>
+    <br/>
+    <%= f.text_field :login %>
+</p>
+<p>
+    <label for="email">
+        Email
+    </label>
+    <br/>
+    <%= f.text_field :email %>
+</p>
+<p>
+    <label for="password">
+        Password
+    </label>
+    <br/>
+    <%= f.password_field :password %>
+</p>
+<p>
+    <label for="password_confirmation">
+        Confirm Password
+    </label>
+    <br/>
+    <%= f.password_field :password_confirmation %>
+</p>
+<p>
+<label for="user_player_class">Please choose an class</label><br />
+<%= select :user, :player_class, @player_classes, {:selected=>@user.player_class} %>
+</p>
+
+<p>
+<label for="user_avatar">Please choose an avatar</label><br />
+<input type="text" readonly="readonly" name="user[avatar]" id="user_avatar" value="">
+</p>
+<% i = 0 %>
+<% @image_array.each do |file| %>
+	<img id='<%= file %>' src="/images/avatars/<%= file %>"/ onclick="document.getElementById('user_avatar').value='<%= file %>';" onload="document.getElementById('user_avatar').value='<%= file %>';">
+	<% if i == 11 %>
+		<br/>
+		<% i = 0 %>
+	<% else %>
+		<% i=i+1 %>
+	<% end %>
+<% end %>
+<br/>
+<p>
+    <%= f.submit button_name %>
+</p>
+<% end -%>

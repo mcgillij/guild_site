@@ -1,0 +1,28 @@
+<% if logged_in? and current_user.is_in_role?(:Admin) %>
+<h1>Editing poll_question</h1>
+
+<% form_for(@poll_question) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :description %><br />
+    <%= f.text_field :description %>
+  </p>
+  <p>
+    <%= f.label 'check to make poll active' %>
+    
+    <%= f.check_box :active %>
+  </p>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', {:controller => 'poll', :action => 'index'} %>
+<% else %>
+You cannot be here.
+<% end %>

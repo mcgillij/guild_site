@@ -1,0 +1,17 @@
+<% if logged_in? and current_user.is_in_role?(:Admin) %>
+<p>
+  <b>User:</b>
+  <%=h User.find(@roles_users.user_id).login %>
+</p>
+
+<p>
+  <b>Roles:</b>
+  <%=h Role.find(@roles_users.role_id).rname %>
+</p>
+
+
+<%= link_to 'Edit', edit_roles_user_path(@roles_users) %> |
+<%= link_to 'Back', roles_users_path %>
+<% else %>
+You can't be here go away.
+<% end %>

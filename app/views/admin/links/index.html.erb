@@ -1,0 +1,17 @@
+<h2>Admin Section</h2>
+<% if logged_in? and @user.is_in_role?(:Admin) %>
+<p>Below you will find links to all of the administration tools found on the site.  
+These tools can only be accessed by users in the 'Admins' role.</p>
+<%= link_to "Manage front page Posts", admin_posts_path %>
+<br />
+<%= link_to "Roles", roles_path, :class => "nav_link" %>
+<br />
+<%= link_to "Players Roles", roles_users_path, :class => "nav_link" %>
+<br />
+<a href="/poll/">Manage Polls</a>
+<br />
+
+<% else %>
+<p>You are not an admin!</p>
+<% end %>
+

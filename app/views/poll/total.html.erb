@@ -1,0 +1,13 @@
+<% if logged_in? %>
+<h2>Totals for this poll</h2>
+
+Here are the results for <%= @poll.name %><br />
+Description: <%= @poll.description %>
+<ul>
+<% for answer in @answers  %>
+<li><%= answer.description %>:<%= answer.votes %></li>
+<% end %>
+</ul>
+<% else %>
+You must be logged in to see the results.
+<% end %>

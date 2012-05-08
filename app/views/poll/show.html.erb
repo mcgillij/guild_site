@@ -1,0 +1,22 @@
+<% if logged_in? and current_user.is_in_role?(:Admin) %>
+<p>
+  <b>Name:</b>
+  <%=h @poll_question.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @poll_question.description %>
+</p>
+<ul>
+<% for answer in @answers %>
+
+	<li><%= answer.description %></li>
+
+<% end %>
+</ul>
+<%= link_to 'Edit', edit_poll_question_path(@poll_question) %> |
+<%= link_to 'Back', {:controller => 'poll', :action => 'index'} %>
+<% else %>
+Uh oh! You can't be here.
+<% end %>

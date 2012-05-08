@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+        <title>Einherjar - Warhammer Guild</title>
+        <%= javascript_include_tag 'calendariffic/calendar.js', 'calendariffic/calendar-setup.js', 'calendariffic/lang/calendar-en.js' %>
+        <%= stylesheet_link_tag 'calendariffic/calendar-blue.css' %>
+        <%= stylesheet_link_tag 'main' %>
+    </head>
+    <body>
+        <div id="all" class="roundedfg">
+            <b class="rounded_corner"><b class="rounded_corner1"><b></b></b><b class="rounded_corner2"><b></b></b><b class="rounded_corner3"></b><b class="rounded_corner4"></b><b class="rounded_corner5"></b></b>
+            <div class="rounded_cornerfg">
+                <div id="header">
+                    <a href="/posts/"><img src="/images/banner.jpg" alt="banner" border=0 /></a>
+                </div>
+                <div id="side_bar">
+                    <% if logged_in? %>
+					<strong>Welcome:</strong> <%= current_user.login %>
+					<br />
+					<strong>Rank:</strong> <%= current_user.roles[0].rname %>
+					<br/>
+					<%= link_to 'Logout', logout_path, :class => "nav_link" %>
+                    <br/>
+					<br/>
+                    
+					<a href="/posts/" class="nav_link">Home</a>
+                    <br/>					
+                    <%= link_to 'Events', events_path, :class => "nav_link" %>
+					<br/>
+					<%= link_to 'Roster', users_path, :class => "nav_link" %>
+					<br />
+					<%= link_to "Trophies", trophies_path, :class => "nav_link" %>
+					<br />
+					<%= link_to "Forum", {:controller => 'forum'}, :class => 'nav_link' %>(Threaded) 
+					<br />
+					<%= link_to "Forum", forum_topics_path, :class => 'nav_link' %>(Normal)
+					<br />
+					<%= link_to 'Vote', '/vote/', :class => 'nav_link' %>
+					<br />
+					
+					
+					<br />
+										
+					<%= link_to 'Edit Account', edit_user_path(session[:user_id]), :class => "nav_link" %>
+					<br/>
+                    <%= link_to 'Admin Section', admin_links_path, :class => "nav_link" %><br />
+                    <% else %>
+                    
+                    <% form_tag session_path do -%>
+                    <p>
+                        <label for="login">
+                            Login
+                        </label>
+                        <br/>
+                        <%= text_field_tag 'login' %>
+                    </p>
+                    <p>
+                        <label for="password">
+                            Password
+                        </label>
+                        <br/>
+                        <%= password_field_tag 'password' %>
+                    </p>
+                    <p>
+                        <label for="remember_me">
+                            Remember me:
+                        </label>
+                        <%= check_box_tag 'remember_me' %>
+                    </p>
+                    <p>
+                        <%= submit_tag 'Log in' %>
+                    </p>
+                    <% end -%>
+                    <%= link_to 'Sign up', signup_path, :class => "nav_link" %>
+                    <br/>
+                    <% end %>
+                    <br/>
+                    <br/>
+                    Upcoming Events
+                    <br/>
+                    <% @events = Event.find(:all, :conditions => ['start_date > ?', Time.now]) %>
+                    <% @events.each do |event| %>
+                    <%= link_to event.title, event_path(event), :class => "nav_link" %>
+                    <br/>
+                    <% end %>
+					<br />
+					<%= link_to "About Us", guild_info_path(:show), :class => 'nav_link' %>
+					<br />
+					<br />
+					
+					Events <%= link_to "RSS Feed", formatted_events_url(:rss), :class => "nav_link" %>
+					<br />
+					Posts <%= link_to "RSS Feed", formatted_posts_url(:rss), :class => "nav_link" %>
+                </div>
+                <div id="main_content">
+                    <% if flash[:notice] -%>
+                    <div id="flash">
+                        <%= flash[:notice] %>
+                    </div>
+                    <% end -%>
+                    <%= yield %>
+                </div>
+                <div id="footer">
+                	<br />
+                    <hr>
+					The einherjar then spend the evening and night in feast, served by lovely valkyries, until they all fall asleep, solidly drunk.
+                </div>
+            </div><b class="rounded_corner"><b class="rounded_corner5"></b><b class="rounded_corner4"></b><b class="rounded_corner3"></b><b class="rounded_corner2"><b></b></b><b class="rounded_corner1"><b></b></b></b>
+        </div>
+    </body>
+</html>

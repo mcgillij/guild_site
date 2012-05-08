@@ -1,0 +1,23 @@
+<h1>Editing trophy</h1>
+
+<% if logged_in? %>
+<% form_for(@trophy) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.label :body %><br />
+    <%= f.text_area :body, :rows => 10 %>
+  </p>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+<% else %>
+You need to be logged in to edit trophies.
+<% end %>
+<%= link_to 'Show', @trophy %> |
+<%= link_to 'Back', trophies_path %>

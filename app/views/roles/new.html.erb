@@ -1,0 +1,19 @@
+<% if logged_in? and current_user.is_in_role?(:Admin) %>
+<h1>New role</h1>
+
+<% form_for(@role) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :rname %><br />
+    <%= f.text_field :rname %>
+  </p>
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', roles_path %>
+<% else %>
+You can't be here go away
+<% end %>

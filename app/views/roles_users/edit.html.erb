@@ -1,0 +1,24 @@
+<% if logged_in? and current_user.is_in_role?(:Admin) %>
+<h2>Editing <%= @user.login %>'s Roles</h2>
+<% form_for @roles_users, :url => { :action => "update" } do |f| %>
+  <%= f.error_messages %>
+ <ul>
+<% @roles.each do |role| %>
+   <li><input type="radio" id="roles_users_rolesids" name="role_id" value="<%= role.id %>"
+          <% if @roles_users.role_id == role.id %> checked="checked"
+		  <% end %> 
+		  />
+<%= role.rname %>
+
+<% end %>
+</ul>
+ <%= f.submit "Update" %>
+  <br/><br/>
+  
+<%= link_to 'Back', admin_links_path %>
+
+<% end %>
+
+<% else %>
+You can't be here go away
+<% end %>

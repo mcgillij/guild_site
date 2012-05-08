@@ -1,0 +1,33 @@
+<h2>Guild News</h2>
+<div id="main_posts">
+
+<% for post in @posts %>
+<table width="1000px" border=0>
+<tr>
+    <td><strong><%=h post.title %></strong> | posted at: <%=h post.created_at.to_date %></td> 
+</tr>
+<tr>
+	<td>
+    <%=h post.body %>
+	</td>
+
+</tr>	
+<tr>
+	<td><div id="poster">by <%= post.user.login %>, <img src="/images/avatars/<%= post.user.avatar %>"/></div></td>
+</tr>
+<tr>
+	<td>
+	<%= link_to 'Comments', post %>
+	<% if post.comments %>
+		(<%= post.comments.count %>)
+	<% end %>
+	</td>
+</tr>
+</table>
+<br />	
+<% end %>
+
+</div>
+<p>
+  	
+</p>

@@ -1,0 +1,64 @@
+<% if logged_in? %>
+<% topic_user = User.find(@forum_topic.user_id) %>
+<% posts = ForumPost.paginate :include => [:user], :per_page => 10, :page => params[:page], :order => 'created_at ASC', :conditions => {:forum_topics_id => @forum_topic.id } %>
+
+<div id="forum">
+<div id="forum_topic">
+<strong><%= @forum_topic.title %></strong> - ( by <strong><%= topic_user.login %></strong>@<%= @forum_topic.updated_at %>)
+	
+	<%= link_to image_tag("topic_reply.gif", :border => 0), {:controller => 'forum', :action => 'new', :id => @forum_topic.id } %>
+	
+</div>
+<br />
+<% count = 0 %>
+<% if posts.empty? %>
+<table border=0 <%= alternate_class(count) %>>
+				<tr>
+					<td width="150px" >
+					</td>
+			<td width="850px">
+			No one has posted on this topic yet.
+		
+					</td>
+				</tr>
+			</table>
+<% end %>
+<% posts.each do |post| %>
+
+<div id="forum_comments">
+	
+			<table border=0 <%= alternate_class(count) %>>
+				<tr>
+					<td width="150px" >
+			<div id="forum_poster">
+			<img src="/images/avatars/<%= post.user.avatar %>"/>
+			<% if post.user_id == current_user.id %>
+				<%= link_to image_tag("post_edit.gif", :border => 0), {:controller => 'forum', :action => 'edit', :id => post.id } %>
+			<% end %>
+			<hr>
+			<strong><%= post.user.login %></strong> 
+			@ <%= post.created_at %>
+			<% if post.created_at != post.updated_at %>
+			and updated at: <%= post.updated_at %>
+			<% end %>
+			</div>
+			</td>
+			<td width="850px">
+				
+			<div id="forum_post_body" >
+			<%= post.body %><br />
+			</div>
+		
+					</td>
+				</tr>
+			</table>
+		
+</div>
+<% count += 1 %>
+<% end %>
+<br />
+<%= will_paginate posts %>
+</div>
+<% else %>
+You don't get to be here.
+<% end %>

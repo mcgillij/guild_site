@@ -1,0 +1,20 @@
+<% if logged_in? %>
+<h2>Replying forum post</h2>
+
+<% form_for @forum_post, :url => {:controller => 'forum', :action => 'create'} do |f| %>
+  <%= f.error_messages %>
+ 
+  <p>
+    <%= f.label :body %><br />
+    <%= f.text_area :body %>
+  </p>
+   <%= f.hidden_field :user_id, :value => current_user.id %>
+   <%= f.hidden_field :forum_topics_id, :value => @forum_topic.id %>
+  <p>
+  <p>
+    <%= f.submit "Reply" %>
+  </p>
+<% end %>
+<% else %>
+You don't get to be here.
+<% end %>

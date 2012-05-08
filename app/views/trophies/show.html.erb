@@ -1,0 +1,13 @@
+<p>
+  <b>Title:</b>
+  <%=h @trophy.title %>
+</p>
+
+<p>
+  <b>Body:</b>
+  <%=h @trophy.body %>
+</p>
+<% if logged_in? and current_user.is_in_role?(:Admin)%>
+<%= link_to 'Edit', edit_trophy_path(@trophy) %> |
+<% end %>
+<%= link_to 'Back', trophies_path %>

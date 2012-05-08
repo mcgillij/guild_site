@@ -1,0 +1,152 @@
+<% if logged_in? %>
+<p>
+<%= link_to image_tag("topic_new.gif", :border => 0), new_forum_topic_path %>
+</p>
+<div id="forum">
+<% for sticky_topic in @sticky_forum_topics %>
+<% sticky_topic_user = User.find(sticky_topic.user_id) %>
+<% sticky_posts = ForumPost.paginate :include => [:user], :per_page => 10, :page => params[:page], :order => 'created_at ASC', :conditions => {:forum_topics_id => sticky_topic.id } %>
+
+
+<div id="sticky_forum_topic">
+	<% if logged_in? and current_user.is_in_role?(:Admin) %>
+				<%= link_to 'UnSticky', {:controller => 'forum', :action => 'unsticky', :id => sticky_topic.id } %>
+	<% end %> 
+			<%= image_tag('sticky.gif', :border=> 0) %>
+<strong><%= sticky_topic.title %></strong> - ( by <strong><%= sticky_topic_user.login %></strong>: <%= sticky_topic_user.roles[0].rname %>@<%= sticky_topic.updated_at %>)
+	<%= link_to image_tag("topic_reply.gif", :border=>0), {:controller => 'forum', :action => 'new', :id => sticky_topic.id } %>
+
+	
+		
+			
+		
+</div>
+<br />
+<% sticky_count = 0 %>
+
+<% if sticky_posts.empty? %>
+<table border=0 <%= alternate_class(sticky_count) %>>
+				<tr>
+					<td width="150px" >
+					</td>
+			<td width="850px">
+			No one has posted on this topic yet.
+		
+					</td>
+				</tr>
+			</table>
+<% end %>
+
+
+<% sticky_posts.each do |sticky_post| %>
+<div id="forum_comments">
+	
+			<table border=0 <%= alternate_class(sticky_count) %>>
+				<tr>
+					<td width="150px" >
+			<div id="forum_poster">
+			<img src="/images/avatars/<%= sticky_post.user.avatar %>"/>
+			<% if sticky_post.user_id == current_user.id %>
+				<%= link_to image_tag("post_edit.gif", :border => 0), {:controller => 'forum', :action => 'edit', :id => sticky_post.id } %>
+			<% end %>
+			<hr>
+			<strong><%= sticky_post.user.login %></strong><br />
+			<%= sticky_post.user.roles[0].rname %>@<%= sticky_post.created_at %>
+			<% if sticky_post.created_at != sticky_post.updated_at %>
+			<br />
+			and updated at: <%= sticky_post.updated_at %>
+			<% end %>
+			</div>
+			</td>
+			<td width="850px">
+				
+			<div id="forum_post_body" >
+			<%= sticky_post.body %><br />
+			</div>
+		
+					</td>
+				</tr>
+			</table>
+		
+</div>
+<% sticky_count += 1 %>
+<% end %>
+<br />
+<%= will_paginate sticky_posts %>
+<% end %>	
+<%= will_paginate @sticky_forum_topics %>	
+
+
+
+	
+<% for topic in @forum_topics %>
+<% topic_user = User.find(topic.user_id) %>
+<% posts = ForumPost.paginate :include => [:user], :per_page => 10, :page => params[:page], :order => 'created_at ASC', :conditions => {:forum_topics_id => topic.id } %>
+
+
+<div id="forum_topic">
+	<% if logged_in? and current_user.is_in_role?(:Admin)%>
+	
+		<%= link_to 'Make Sticky', {:controller => 'forum', :action => 'sticky', :id => topic.id } %>
+	
+	<% end%> <strong><%= topic.title %></strong> - ( by <strong><%= topic_user.login %></strong>: <%= topic_user.roles[0].rname %>@<%= topic.updated_at %>)
+	
+	<%= link_to image_tag("topic_reply.gif", :border=>0), {:controller => 'forum', :action => 'new', :id => topic.id } %>
+	
+
+</div>
+<br />
+<% count = 0 %>
+<% if posts.empty? %>
+<table border=0 <%= alternate_class(count) %>>
+				<tr>
+					<td width="150px" >
+					</td>
+			<td width="850px">
+			No one has posted on this topic yet.
+		
+					</td>
+				</tr>
+			</table>
+<% end %>
+<% posts.each do |post| %>
+
+<div id="forum_comments">
+	
+			<table border=0 <%= alternate_class(count) %>>
+				<tr>
+					<td width="150px" >
+			<div id="forum_poster">
+			<img src="/images/avatars/<%= post.user.avatar %>"/>
+			<% if post.user_id == current_user.id %>
+				<%= link_to image_tag("post_edit.gif", :border => 0), {:controller => 'forum', :action => 'edit', :id => post.id } %>
+			<% end %>
+			<hr>
+			<strong><%= post.user.login %></strong><br />
+			<%= post.user.roles[0].rname %>@<%= post.created_at %>
+			<% if post.created_at != post.updated_at %>
+			and updated at: <%= post.updated_at %>
+			<% end %>
+			</div>
+			</td>
+			<td width="850px">
+				
+			<div id="forum_post_body" >
+			<%= post.body %><br />
+			</div>
+		
+					</td>
+				</tr>
+			</table>
+		
+</div>
+<% count += 1 %>
+<% end %>
+<br />
+<%= will_paginate posts %>
+<% end %>
+<%= will_paginate @forum_topics %>	
+</div>
+<% else %>
+Um you don't get to go here without registering.
+<% end %>

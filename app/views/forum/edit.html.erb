@@ -1,0 +1,22 @@
+<% if logged_in? %>
+<h1>Editing forum_post</h1>
+
+<% form_for @forum_post, :url => {:controller => 'forum', :action => 'update'} do |f| %>
+  <%= f.error_messages %>
+
+ 
+  <p>
+    <%= f.label :body %><br />
+    <%= f.text_area :body %>
+  </p>
+   <%= f.hidden_field :user_id, :value => current_user.id %>
+   <%= f.hidden_field :forum_topics_id, :value => @forum_topic.id %>
+  <p>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+<% else %>
+You don't get to be here
+<% end %>
+

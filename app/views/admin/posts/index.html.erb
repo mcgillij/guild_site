@@ -1,0 +1,14 @@
+<h2>Listing All Posts</h2>
+
+<% for post in @posts %>
+	<%=h post.title %>, created at: <%=h post.created_at.to_date %>, last updated: <%=h post.updated_at.to_date %><br/>
+	<%=h post.body %>
+	<br/>
+    <%= link_to 'Show', [:admin, post] %> | <%= link_to 'Edit', edit_admin_post_path(post) %> | <%= link_to 'Destroy', [:admin, post], :confirm => 'Are you sure?', :method => :delete %>
+  	<br/>
+	<br/>
+<% end %>
+
+<br />
+
+<%= link_to 'New post', new_admin_post_path %>

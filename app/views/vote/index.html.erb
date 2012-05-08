@@ -1,0 +1,56 @@
+<% if logged_in? %>
+<h2>Vote on a poll!</h2>
+<div id="poll">
+<table>
+	<tr>
+		
+<% for poll_question in @poll_questions %>
+<td>
+Vote on :<%= poll_question.name %><br />
+Description: <%= poll_question.description %><br />
+</td>
+<td>
+by <%= poll_question.user.login %> <img src="/images/avatars/<%= poll_question.user.avatar %>"/>
+</td>
+<tr>
+	<td>
+<% form_for 'vote', :url => {:action => 'update' } do |f| %>
+
+<%= f.hidden_field :poll_question_id, :value => poll_question.id %>
+ <ul>
+ 	<% flag = 0 %>
+<% answers = PollAnswer.find(:all, :conditions => ['poll_question_id = ?', poll_question.id] )%>
+<% answers.each do |answer| %>
+   <li><input type="radio" id="answer_answerids" name="answer_id" value="<%= answer.id %>" <% if flag == 0 %> <% flag = 1%>checked<% end %> />
+ 
+<%= answer.description %>
+
+<% end %>
+</ul>
+</td>
+</tr>
+<tr>
+	<td><%= f.submit 'Vote' %></td>
+</tr>
+
+
+<% end %>
+
+<% end %>
+
+</table>
+</div>
+<br />
+<% if !@disabled_poll_questions.empty? %>
+<h2>View Results of Previous Polls</h2>
+<ul>
+<% for question in @disabled_poll_questions %>
+<li><%= link_to question.name, { :controller => 'poll', :action => 'total', :id => question.id } %></li>
+<% end %>
+<% end %>
+</ul>
+
+
+<% else %>
+You can't vote unless your logged in.
+<% end %>

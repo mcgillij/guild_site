@@ -1,0 +1,37 @@
+<h2>Upcoming Events</h2>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Body</th>
+    <th>Start date</th>
+    <th>Length</th>
+    <th>Organizer</th>
+	<th>Avatar</th>
+  </tr>
+
+<% for event in @events %>
+  <tr>
+    <td><%=h event.title %></td>
+    <td><%=h event.body %></td>
+    <td><%=h event.start_date %></td>
+    <td><%=h event.length %></td>
+	<% user = User.find(event.user_id) %>
+    <td><%=h user.login %></td>
+	<td><img src="/images/avatars/<%= user.avatar %>"/></td>
+	<% if logged_in? and current_user.id == @event.user_id or current_user.is_in_role?(:Admin) %>
+    <td><%= link_to 'Show', event %></td>
+    <td><%= link_to 'Edit', edit_event_path(event) %></td>
+    <td><%= link_to 'Destroy', event, :confirm => 'Are you sure?', :method => :delete %></td>
+	<% end %>
+	
+  </tr>
+<% end %>
+</table>
+
+<br />
+<% if logged_in? %>
+<%= link_to 'New event', new_event_path %>
+<% else %>
+You can't see events unless your logged in.
+<% end%>

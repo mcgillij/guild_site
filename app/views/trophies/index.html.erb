@@ -1,0 +1,20 @@
+<h2>Trophies and Guild Milestones.</h2>
+<div id="trophies">
+	<ul>
+<% for trophy in @trophies %>
+    <li><strong><%=h trophy.title %></strong> awarded by <%= trophy.user.login %>
+    <p><%=h trophy.body %></p>
+	</li>
+	
+    <%= link_to 'Show', trophy %>
+	<% if logged_in? and current_user.id == trophy.user_id or  current_user.is_in_role?(:Admin)%>
+	<%= link_to 'Edit', edit_trophy_path(trophy) %>
+    <%= link_to 'Destroy', trophy, :confirm => 'Are you sure?', :method => :delete %>
+	<% end %>
+<% end %>
+</ul>
+</div>
+<br />
+<% if logged_in? %>
+<%= link_to 'New trophy', new_trophy_path %>
+<% end %>

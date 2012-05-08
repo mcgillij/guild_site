@@ -1,0 +1,45 @@
+<% if logged_in? %>
+<p>
+<%= link_to image_tag("topic_new.gif", :border => 0), new_forum_topic_path %>
+</p>
+<div id="sticky_forum_topic">
+<table>
+<% for sticky_topic in @sticky_forum_topics %>
+<% sticky_posts = ForumPost.find(:all, :conditions => {:forum_topics_id => sticky_topic.id}) %>
+<% sticky_topic_user = User.find(sticky_topic.user_id) %>
+<% sticky_count = sticky_posts.size %>
+<tr>
+	<td width="500px"><% if logged_in? and current_user.is_in_role?(:Admin)%>
+				<%= link_to 'UnSticky', {:controller => 'forum', :action => 'unsticky', :id => sticky_topic.id } %>
+			<% end %>	
+				<%= image_tag('sticky.gif', :border=> 0) %> 
+	<%= link_to sticky_topic.title, forum_topic_path(sticky_topic.id) %> (<%= sticky_count %>) 
+	</td>
+	<td width="300px" >( by <strong><%= sticky_topic_user.login %></strong>@<%= sticky_topic.updated_at %>)<%= link_to image_tag("topic_reply.gif", :border => 0), {:controller => 'forum', :action => 'new', :id => sticky_topic.id } %></td>	
+</tr>	
+<% end %>
+</table>
+<%= will_paginate @sticky_forum_topics %>	
+</div>
+<div id="forum_topic">
+<table>
+<% for topic in @forum_topics %>
+<% posts = ForumPost.find(:all, :conditions => {:forum_topics_id => topic.id}) %>
+<% topic_user = User.find(topic.user_id) %>
+<% count = posts.size %>
+<tr>
+	<td width="500px"><% if logged_in? and current_user.is_in_role?(:Admin)%>
+				<%= link_to 'Make Sticky', {:controller => 'forum', :action => 'sticky', :id => topic.id } %>
+			<% end %> 
+	<%= link_to topic.title, forum_topic_path(topic.id) %> (<%= count %>) 
+	</td>
+	<td width="300px" > ( by <strong><%= topic_user.login %></strong>@<%= topic.updated_at %>) <%= link_to image_tag("topic_reply.gif", :border => 0), {:controller => 'forum', :action => 'new', :id => topic.id } %>
+	</td>
+</tr>	
+<% end %>
+</table>
+<%= will_paginate @forum_topics %>	
+</div>
+<% else %>
+You don't get to be here
+<% end %>

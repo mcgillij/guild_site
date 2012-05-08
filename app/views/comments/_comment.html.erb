@@ -1,0 +1,17 @@
+<!-- app/views/comments/_comment.html.erb -->
+<% form_for([@post, @comment]) do |f| %>
+<% if logged_in? %>
+<input id="comment_user_id" name="comment[user_id]" type="hidden" value="<%= session[:user_id] %>" />
+<% else %>
+
+<% end %>
+  <p>
+    <b>Comment:</b><br />
+    <%= f.text_area :body, :rows => 10 %>
+  </p>
+
+  <p>
+    <%= f.submit button_name %>
+  </p>
+<% end %>
+

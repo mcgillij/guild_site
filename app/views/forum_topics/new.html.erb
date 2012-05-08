@@ -1,0 +1,23 @@
+<% if logged_in? %>
+<h1>New forum topic</h1>
+
+<% form_for(@forum_topic) do |f| %>
+  <%= f.error_messages %>
+
+<p>
+	<%= f.label :title %>
+	<%= f.text_field :title %>	
+</p>
+  <p>
+    <%= f.label :body %><br />
+    <textarea name="forum_topic[body]" id="forum_topic_body" rows=20  cols=40></textarea>
+  </p>
+<%= f.hidden_field :sticky, :value => false %>
+<%= f.hidden_field :user_id, :value => current_user.id %>
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>
+<% else %>
+You don't get to be here.
+<% end %>

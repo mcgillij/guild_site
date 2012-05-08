@@ -1,0 +1,21 @@
+<% if logged_in? %>
+<h1>Editing forum_topic</h1>
+
+<% form_for(@forum_topic) do |f| %>
+  <%= f.error_messages %>
+
+ <p>
+	<%= f.label :title %>
+	<%= f.text_field :title %>	
+	<%= f.hidden_field :user_id, :value => current_user.id %>
+</p>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @forum_topic %> |
+<%= link_to 'Back', forum_topics_path %>
+<% else %>
+You don't get to be here.
+<% end%>

@@ -1,0 +1,28 @@
+<% if logged_in? and current_user.is_in_role?(:Admin) %>
+<h2>Assigning Poll Questions to Answers</h2>
+
+Answers already assigned to this post:
+<ul>
+	<% for answer in @assigned_answers %>
+	<li><%= answer.description %></li>
+	<% end %>
+</ul>
+
+<br />
+Assign more answers to this post<br />
+
+<% form_for @poll_answers, :url => { :action => "update" } do |f| %>
+
+
+<% f.hidden_field 'poll_id', :value => @poll.id %>
+<%= collection_select("poll_answer", "id" , @poll_answers, "id", "description") %>
+
+
+<%= f.submit 'Update' %>
+
+<% end%>
+<br />
+<%= link_to 'Back', {:controller => 'poll', :action => 'index'} %>
+<% else %>
+Your not allowed to be here.
+<% end %>

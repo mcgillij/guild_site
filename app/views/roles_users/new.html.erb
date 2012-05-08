@@ -1,0 +1,23 @@
+<% if logged_in? and current_user.is_in_role?(:Admin) %>
+<h1>New users_roles</h1>
+
+<% form_for(@roles_user) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :user_id %><br />
+	<%= select( :user_id, "id", @users.map {|user| [user.login, user.id]}  ) %>
+  </p>
+  <p>
+    <%= f.label :role_id %><br />
+	<%= select( :role_id, "id", @roles.map {|role| [role.rname, role.id]}  ) %>
+  </p>
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', roles_users_path %>
+<% else %>
+You can't be here go away
+<% end %>

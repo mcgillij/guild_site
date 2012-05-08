@@ -1,0 +1,7 @@
+--- 
+log_file: log/mongrel.log
+environment: production
+port: "8000"
+cwd: /var/www/rails/new_guild
+pid_file: tmp/pids/mongrel.pid
+servers: 3

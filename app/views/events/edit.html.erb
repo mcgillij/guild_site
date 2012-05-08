@@ -1,0 +1,32 @@
+<h1>Editing event</h1>
+<% if logged_in? and current_user.id == @event.user_id or current_user.is_in_role?(:Admin) %>
+<% form_for(@event) do |f| %>
+
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.label :body %><br />
+    <%= f.text_area :body, :rows => 10 %>
+  </p>
+  <p>
+    <%= f.label :start_date %><br />
+    <%= calendariffic_input(false, 'event[start_date]', 'calendariffic/date.png', 'event_start_date', '%Y-%m-%d %H:%M:%S UTC', @event.start_date, {:class => 'calendar-blue', :readonly => 'true'}, {:class => 'borderless'}) %>
+  </p>
+  <p>
+    <%= f.label :length %><br />
+    <%= f.text_field :length %>
+  </p>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @event %> |
+<%= link_to 'Back', events_path %>
+<% else %>
+You can only edit events if your logged in or the creator of the event.
+<% end %>

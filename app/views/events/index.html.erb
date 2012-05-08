@@ -1,0 +1,42 @@
+<h2>Upcoming Events</h2>
+<div id="events">
+
+  <% for event in @events %>
+ <table border=0 width="1000px">
+  <tr >
+    <th colspan=2><strong><%=h event.title %></th>
+  </tr>
+  <tr>
+  	<td colspan=2><%=h event.body %></td>
+  </tr>
+  <tr>  
+	<td><strong>Starts at:</strong><%=h event.start_date %></td>
+  </tr>
+  <tr>
+    <td><strong>Estimated duration:</strong> <%=h event.length %></td>
+  </tr>
+  <tr>	
+	<td colspan=2><strong>Organized by:</strong><%=h event.user.login %><br />
+	<strong>Rank:</strong> <%= event.user.roles[0].rname %><br />
+		<img src="/images/avatars/<%= event.user.avatar %>"/>
+	</td>
+  </tr>
+  <tr>
+	<td colspan=2><%= link_to 'Show', event %>|
+	<% if logged_in? %>
+	<% if current_user.id == event.user_id or current_user.is_in_role?(:Admin) %>
+    <%= link_to 'Edit', edit_event_path(event) %>|
+    <%= link_to 'Destroy', event, :confirm => 'Are you sure?', :method => :delete %>
+	<% end %>
+	<% end %>
+	</td>
+  </tr>
+ </table>
+ <br />
+<% end %>
+</div>
+<br />
+
+<% if logged_in? %>
+<%= link_to 'New event', new_event_path %> | <%= link_to 'Past Events', past_path %>
+<% end%>

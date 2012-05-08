@@ -1,0 +1,8 @@
+<img src="/images/avatars/<%= @user.avatar %>" align="left"/><div id="user_name"><%=h @user.login %></div>
+<br/><br/>
+<div id="bold_title">Player Information</div>
+
+<div id="bold_title">Character Sheet</div>
+Character Name: <%=h @user.login %> <br />
+Guild Rank: <%=h @user.roles[0].rname %><br />
+Class: <%=h @user.player_class %><br />

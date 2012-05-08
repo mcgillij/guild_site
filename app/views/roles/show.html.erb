@@ -1,0 +1,12 @@
+<% if logged_in? and current_user.is_in_role?(:Admin) %>
+<p>
+  <b>Rname:</b>
+  <%=h @role.rname %>
+</p>
+
+
+<%= link_to 'Edit', edit_role_path(@role) %> |
+<%= link_to 'Back', roles_path %>
+<% else %>
+You can't be here go away
+<% end %>

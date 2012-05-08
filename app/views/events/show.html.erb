@@ -1,0 +1,18 @@
+<div id="event">
+<p>	
+<strong><%=h @event.title %>:</strong> is set for <%=h @event.start_date %><br />
+</p>
+<p><strong>Description: </strong> <br>
+<%=h @event.body %><br />
+</p>
+<strong>Expected duration:</strong> <%=h @event.length %>
+
+<p></p><strong>Organized by :</strong> <%=h @user.login %> <img src="/images/avatars/<%= @user.avatar %>"/></p>
+</div>
+<br />
+<% if logged_in? %>
+<% if current_user.id == @event.user_id or current_user.is_in_role?(:Admin) %>
+<%= link_to 'Edit', edit_event_path(@event) %> |
+<% end %>
+<% end %>
+<%= link_to 'Back', events_path %>

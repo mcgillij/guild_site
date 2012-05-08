@@ -1,0 +1,29 @@
+<% if logged_in? and current_user.is_in_role?(:Admin) %>
+<h1>Listing User's Roles</h1>
+
+<table>
+  <tr>
+    <th>Users</th>
+    <th>Roles</th>
+  </tr>
+
+<% for roles_users in @roles_users %>
+
+  <tr>
+		<TD><%=h User.find(roles_users.user_id).login %></TD>
+		<TD><%=h Role.find(roles_users.role_id).rname %></TD>
+		
+	<td><%= link_to 'Show', roles_user_path(roles_users) %></td>
+    <td><%= link_to 'Edit', edit_roles_user_path(roles_users) %></td>
+  <!--  <td><%= link_to 'Destroy', roles_user_path(roles_users), :confirm => 'Are you sure?', :method => :delete %></td> -->
+  </tr>
+<% end %>
+</table>
+
+<br />
+ <%= link_to 'Back', admin_links_path %>
+
+
+<% else %>
+You can't be here go away.
+<% end %>

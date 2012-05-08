@@ -1,0 +1,5 @@
+<% @users.each do |user| %>
+	<p>
+	<img src="/images/avatars/<%= user.avatar %>"/><br />
+	<%= link_to user.login, user_path(user) %> (<%=h user.player_class %>)</p>
+<% end %>

@@ -1,0 +1,43 @@
+<div id="content">
+
+<p>
+	<b><%=h @post.title %>:</b><%=h @post.body %>
+</p>
+<div id="poster">
+<p>
+	by <%= @user.login %>, at at <%= @post.created_at.to_s %> <img src="/images/avatars/<%= @user.avatar %>"/>
+</p>
+</div>
+</div>
+
+<!-- #1 -->
+<% unless @post.comments.empty? %>
+  <h3>Comments</h3>
+<div id='comments'>
+<ol>
+	
+  <% @post.comments.each do |comment| %>
+  <li><p><%= h comment.body %></p>
+  <% unless comment.user_id %>
+  <div id="poster">
+  by an Anonymous Coward at <%= comment.created_at.to_s %>
+  </div>
+  <% else %>
+  <% user = User.find(comment.user_id) %>
+  <div id="poster">
+  by <%= user.login %> at <%= comment.created_at.to_s %> <img src="/images/avatars/<%= user.avatar %>"/>
+  </div>
+  <% end %>
+   </li>
+  <% end %>
+ </ol>
+</div>
+<% end %>
+
+<!-- #2 -->
+<div id="new_comment">
+<h3>New Comment</h3>
+<%= render :partial => @comment = Comment.new, 
+   :locals => { :button_name => 'Create'}%>
+</div>
+<%= link_to 'Back', posts_path %>
